@@ -1,6 +1,6 @@
 (ns todomvc.helix.core
   (:require ["react" :as react]
-            ["react-dom" :as react-dom]
+            ["react-dom/client" :as react-dom]
             [helix.core :refer [$]]
             [todomvc.core]
             [todomvc.helix.views :as views]
@@ -13,9 +13,8 @@
   ;; Render the UI into the HTML's <div id="app" /> element
   ;; The view function `todomvc.views/todo-app` is the
   ;; root view for the entire UI.
-
-  (react-dom/render ($ react/StrictMode ($ views/todo-app))
-                    (.getElementById js/document "app")))
+  (let [root (react-dom/createRoot (.getElementById js/document "app"))]
+    (.render root ($ react/StrictMode ($ views/todo-app)))))
 
 (defn ^:dev/after-load clear-cache-and-render!
   []
